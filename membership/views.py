@@ -1,4 +1,4 @@
-from datetime import datetime 
+from datetime import datetime
 from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
@@ -38,6 +38,7 @@ def get_selected_plan(request):
         return selected_plan_qs.first()
 
     return HttpResponse('Session expire')
+
 
 def has_expire(request):
     sub = Subscription.objects.get(business=request.user.business)
@@ -94,7 +95,6 @@ def paymentView(request):
 
     reference_no = str(request.user.id) + str(current_subscription.id) + \
         datetime.now().strftime('%Y%m%d%H%M%S')
-
 
     if request.method == 'POST':
         form = PaymentForm(request.POST)
@@ -162,7 +162,7 @@ def paymentView(request):
             has_expired = has_expire(request)
             selected_price = plans.price
             current_price = current_subscription.plan.price
-            
+
             if plans.id != 1 and has_expired == False and selected_price > current_price:
                 amount = selected_price - current_price
             else:
@@ -278,7 +278,6 @@ def paymentView(request):
     context = {'form': form, 'plans': plans, 'reference_no': reference_no}
 
     return render(request, 'membership/payment.html', context)
-
 
 
 class BusinessUpdateView(UpdateView):
