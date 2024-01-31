@@ -21,6 +21,8 @@ from datetime import datetime, timedelta, date
 
 
 def get_user_plan(request):
+    print(request.session.get('selected_plan_type'))
+
     user_plan_qs = Subscription.objects.filter(business=request.user.business)
     if user_plan_qs.exists():
         return user_plan_qs.first()
